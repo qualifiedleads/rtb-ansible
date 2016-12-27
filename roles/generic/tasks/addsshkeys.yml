@@ -1,0 +1,33 @@
+---
+
+- name: add ssh keys
+  authorized_key:
+    key: "{{ lookup('file', item.1) }}"
+    user: "{{ item.0.name }}"
+    state: present
+  failed_when: False
+  with_subelements:
+  - "{{ssh_users}}"
+  - keys
+  tags: sshkeys
+  when: ssh_users
+
+- name: remove banned/deprecated ssh keys
+  authorized_key:
+    key: "{{ lookup('file', item.1) }}"
+    user: "{{ item[0].name }}"
+    state: absent
+  failed_when: False
+  with_nested:
+  - "{{ssh_users}}"
+  - "{{ssh_banned_keys | default({})}}"
+  tags: sshkeys
+  when: ssh_banned_keys is defined
+
+#ssh_user:
+#- name: test
+#  keys:
+#  - bart.pub
+#  - frank.pub
+
+# vim:tabstop=2 expandtab shiftwidth=2 softtabstop=2

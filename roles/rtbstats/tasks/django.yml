@@ -1,0 +1,14 @@
+---
+- name: django manage migrate
+  django_manage:
+    command: migrate
+    app_path: "{{rtbstats_path}}"
+    virtualenv: "{{rtbstats_path}}/venv"
+    settings: config.production
+
+- name: django manage crontab add
+  django_manage:
+    command: crontab add
+    app_path: "{{rtbstats_path}}"
+    virtualenv: "{{rtbstats_path}}/venv"
+    settings: config.production

@@ -1,0 +1,14 @@
+---
+rtbstats_path: /var/www/stats.rtb.cat
+rtbstats_git_version: master
+rtbstats_git_repo: "git@github.com:qualifiedleads/rtbstats.git"
+rtbstats_user: caddy
+rtbstats_python_version: python2.7
+
+
+rtbstats_secret_key: ""
+rtbstats_db_user: rtb
+rtbstats_db_name: rtb
+rtbstats_db_host: localhost
+#rtbstats_nexus_username: stats_api
+#rtbstats_nexus_password: "{{vault_rtbstats_nexus_password}}"

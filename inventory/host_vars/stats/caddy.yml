@@ -1,0 +1,13 @@
+---
+caddy_vhosts:
+  - name: stats.rtb.cat
+    urls: stats.rtb.cat
+    root: /var/www/stats.rtb.cat
+    fastcgi: 
+      - path: /
+        target: /run/caddy/stats.rtb.cat.sock
+        params:
+          except: /foo /bar /lala
+    rewrite:
+      - from: /
+        to: "{path} {path}/ /index.php/{query}"

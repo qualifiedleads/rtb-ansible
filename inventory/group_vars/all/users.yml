@@ -1,0 +1,15 @@
+---
+ansible_user: system
+
+
+host_users:
+    - name: frank
+      homedir: /home/frank
+
+ssh_users:
+    - name: frank
+      keys:
+      - keys/frank.pub
+    - name: system
+      keys:
+      - keys/frank.pub

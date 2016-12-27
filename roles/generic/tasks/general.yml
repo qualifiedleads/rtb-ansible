@@ -1,0 +1,9 @@
+---
+
+- include: addusers.yml
+- include: addsshkeys.yml
+
+- name: install vmware tools if needed
+  include: vmwaretools.yml
+  tags: vmwaretools
+  when: ansible_virtualization_type is defined and ansible_virtualization_type|lower == 'vmware' and ansible_virtualization_role|lower == 'guest'

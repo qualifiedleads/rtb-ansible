@@ -1,0 +1,19 @@
+[Unit]
+Description=Caddy HTTP/2 web server
+Documentation=https://caddyserver.com/docs
+After=network.target
+
+[Service]
+WorkingDirectory=/home/caddy
+User={{ caddy_user }}
+Group={{ caddy_group }}
+Environment=STNORESTART=yes
+LimitNOFILE=4096
+PIDFile=/var/run/caddy.pid
+ExecStart=/usr/bin/caddy -agree=true -email={{ caddy_email }} -conf=/etc/caddy/Caddyfile -pidfile=/var/run/caddy.pid
+ExecReload=/bin/kill -USR1 $MAINPID
+Restart=on-failure
+StartLimitInterval=600
+
+[Install]
+WantedBy=multi-user.target

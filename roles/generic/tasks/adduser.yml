@@ -1,0 +1,32 @@
+---
+
+- name: generate user password
+  local_action: command python -c "from passlib.hash import sha512_crypt; import getpass; print sha512_crypt.encrypt('{{createuser.password}}')"
+  become: no
+  register: createuser_encrypt_password
+  changed_when: False
+  when: createuser.password is defined
+
+- name: "Create homedir for {{createuser.name}}"
+  file:
+    name: "{{createuser.homedir|dirname}}"
+    state: directory
+  when: createuser.homedir is defined and not ((createuser.delete is defined) and (createuser.delete == True))
+
+- name: "Create user {{createuser.name}}"
+  user:
+    name: "{{createuser.name}}"
+    password: "{{createuser_encrypt_password.stdout|default(omit)}}"
+    home: "{{createuser.homedir|default(omit)}}"
+    groups: "{{','.join(createuser.groups|default([]))}}"
+    state: "{{'absent' if ( (createuser.delete is defined) and (createuser.delete == True) ) else 'present'}}"
+    shell: "{{createuser.shell|default(omit)}}"
+    update_password: always
+    system: no
+    createhome: yes
+
+#- debug: var=createuser
+#- debug: var=createuser.ssh_keys
+#- debug: msg="{{createuser.ssh_keys is defined}}"
+
+# vim:tabstop=2 expandtab shiftwidth=2 softtabstop=2

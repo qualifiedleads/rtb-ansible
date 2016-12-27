@@ -1,0 +1,17 @@
+---
+- name: Configure sudo
+  hosts: all
+  tasks:
+  - replace: >
+      regexp="^Defaults\s+requiretty$"
+      replace="# Defaults    requiretty" dest="/etc/sudoers"
+      validate='visudo -cf %s'
+  vars:
+    ansible_ssh_pipelining: False
+
+- name: Gather facts for all systems
+  hosts: all
+  tasks: [ ]
+  tags: always
+
+

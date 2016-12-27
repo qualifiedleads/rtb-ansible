@@ -1,0 +1,38 @@
+# {{ ansible_managed }}
+
+{% for site in caddy_vhosts %}
+{{ site.urls }} {
+    root {{ site.root }}
+    gzip
+    log /var/log/caddy/access-{{ site.name }}.log
+    errors /var/log/caddy/error-{{ site.name }}.log
+{# Fast CGI #}
+{% if site.fastcgi is defined %}
+{% for fcgi in site.fastcgi %}
+    fastcgi {{ fcgi.path }} {{ fcgi.target }} {% if fcgi.preset is defined -%} {{ fcgi.preset }} {% endif -%} {
+        # options
+{% if fcgi.params is defined %}
+{% for k,v in fcgi.params.iteritems() %}
+        {{ k }} {{ v }}
+{% endfor %}
+{% endif %}
+    }
+{% endfor %}
+{% endif %}
+
+{# Rewwrite #}
+{% if site.rewrite is defined %}
+{% for rw in site.rewrite %}
+    rewrite {{ rw.from }} {
+        to {{ rw.to }}
+{% if rw.params is defined %}
+{% for k,v in rw.params.iteritems() %}
+        {{ k }} {{ v }}
+{% endfor %}
+{% endif %}
+    }
+{% endfor %}
+{% endif %}
+}
+
+{% endfor %}

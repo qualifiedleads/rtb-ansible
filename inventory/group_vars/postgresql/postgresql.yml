@@ -1,0 +1,32 @@
+---
+postgresql_log_min_duration_statement: 500                                              
+postgresql_log_line_prefix: '%t [%p]: [%l-1] '
+postgresql_log_checkpoints: true                                                        
+postgresql_log_connections: true                                                        
+postgresql_log_disconnections: true                                                     
+postgresql_log_lock_waits: true                                                         
+postgresql_log_temp_files: 0                                                            
+postgresql_log_autovacuum_min_duration: 250                                             
+                                                                                        
+postgresql_default_auth_method: "peer"                                                  
+postgresql_pg_hba_default:                                                              
+  - type: local                                                                         
+    database: all                                                                       
+    user: '{{ postgresql_admin_user }}'                                                 
+    address: ''                                                                         
+    method: "peer"                                                                      
+  - type: local                                                                         
+    database: all                                                                       
+    user: all                                                                           
+    address: ''                                                                         
+    method: "md5"                                                                       
+  - type: host                                                                          
+    database: all                                                                       
+    user: all                                                                           
+    address: '127.0.0.1/32'                                                             
+    method: "md5"                                                                       
+  - type: host                                                                          
+    database: all                                                                       
+    user: all                                                                           
+    address: '::1/128'                                                                  
+    method: "md5"

@@ -1,0 +1,99 @@
+---
+- include: packages-{{ ansible_pkg_mgr }}.yml
+
+- name: Create Caddy user
+  user: 
+    name: "{{caddy_user}}"
+    home: "{{caddy_homedir|default(omit)}}"
+    system: yes 
+    createhome: yes
+
+- name: Get all Caddy releases
+  get_url: 
+    url: https://api.github.com/repos/mholt/caddy/git/refs/tags 
+    dest: "~{{caddy_user}}/releases.txt"
+    force: yes
+  when: caddy_update
+  register: caddy_releases_cache
+
+- name: Set Caddy features
+  copy: 
+    content: "{{caddy_features}}" 
+    dest: "~{{caddy_user}}/features.txt"
+  when: caddy_update
+  register: caddy_features_cache
+
+- name: Download Caddy
+  get_url: 
+    url: https://caddyserver.com/download/build?os=linux&arch=amd64&features={{caddy_features}} 
+    dest: "~{{caddy_user}}/caddy.tar.gz"
+    force: yes
+  when: caddy_releases_cache.changed or caddy_features_cache.changed
+  register: caddy_binary_cache
+
+- name: Download Caddy
+  get_url: 
+    url: https://caddyserver.com/download/build?os=linux&arch=amd64&features={{caddy_features}} 
+    dest: "~{{caddy_user}}/caddy.tar.gz"
+
+- name: Extract Caddy
+  unarchive: 
+    src: "~{{caddy_user}}/caddy.tar.gz" 
+    dest: /usr/bin/ 
+    copy: no
+  when: caddy_binary_cache.changed
+
+- name: Extract Caddy
+  unarchive: 
+    src: "~{{caddy_user}}/caddy.tar.gz"
+    dest: /usr/bin/ 
+    creates: /usr/bin/caddy 
+    copy: no
+
+- name: Check if the binary can bind to TCP port <1024
+  shell: getcap /usr/bin/caddy | grep cap_net_bind_service
+  failed_when: False
+  changed_when: False
+  register: caddy_bind_cap
+
+- name: Set capability on the binary file to be able to bind to TCP port <1024
+  command: setcap cap_net_bind_service=+ep /usr/bin/caddy
+  when: caddy_bind_cap.rc > 0
+
+- name: Create directories
+  file: 
+    path: "{{ item }}"
+    state: directory
+    owner: "{{caddy_user}}"
+  with_items:
+    - /etc/caddy
+    - /var/www
+    - /var/log/caddy
+
+- name: Create Caddyfile
+  template: 
+    src: caddyfile.j2
+    dest: /etc/caddy/Caddyfile
+  notify: Restart Caddy
+
+- name: Upstart service
+  template: 
+    src: caddy.conf 
+    dest: /etc/init/caddy.conf
+  ignore_errors: yes
+  when: not caddy_init_system or caddy_init_system == "upstart"
+  notify: Restart Caddy
+
+- name: Systemd service
+  template: 
+    src: caddy.service 
+    dest: /etc/systemd/system/caddy.service
+  ignore_errors: yes
+  when: not caddy_init_system or caddy_init_system == "systemd"
+  notify: Reload systemd service file
+
+- name: Start Caddy service
+  service: 
+    name: caddy 
+    state: started 
+    enabled: yes

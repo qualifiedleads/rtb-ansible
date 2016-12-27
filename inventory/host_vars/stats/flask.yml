@@ -1,0 +1,14 @@
+---
+flaskapp_name: stats.rtb.cat
+flaskapp_user: caddy
+flaskapp_directory: "/var/www/{{flaskapp_name}}"
+flaskapp_log_directory: "/var/log/{{flaskapp_name}}"
+flaskapp_requirements: "{{ flaskapp_directory }}/requirements.txt"
+flaskapp_repository: git@github.com:qualifiedleads/rtbstats
+flaskapp_version: master
+flaskapp_pre_hooks: []
+flaskapp_post_hooks: 
+  - "{{flaskapp_directory}}/venv/bin/python manage.py migrate"
+flaskapp_packages:
+  - python-pip
+  - python-virtualenv

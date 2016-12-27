@@ -1,0 +1,15 @@
+---
+- name: place default settings, if they don't already exist
+  copy:
+    src: settings.py
+    dest: "{{rtbstats_path}}/config/settings.py"
+    owner: "{{rtbstats_user}}"
+    mode: 0644
+    force: no
+
+- name: place production settings.
+  template:
+    src: production.j2
+    dest: "{{rtbstats_path}}/config/production.py"
+    owner: "{{rtbstats_user}}"
+    mode: 0644

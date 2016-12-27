@@ -1,0 +1,22 @@
+# -*- mode: ini -*-
+# vi: set ft=ini :
+# ansible host file
+
+[caddy]
+stats
+
+[postgresql]
+stats
+
+[rtbstats]
+stats
+
+; [linode]
+; stats
+
+## django
+## uwsgi
+
+; [dev:children]
+; caddy
+#postgresql

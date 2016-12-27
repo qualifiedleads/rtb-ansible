@@ -1,0 +1,16 @@
+---
+# TODO: Install the vmware tools
+
+#- debug: var=ansible_virtualization_type
+
+- stat:
+    path: /etc/vmware-tools
+  register: vmwaretools_dir
+
+- name: install open-vm-tools
+  apt:
+    name: open-vm-tools
+    state: present
+  when: vmwaretools_dir is defined and not (vmwaretools_dir.stat.isdir is defined and vmwaretools_dir.stat.isdir)
+
+# vim:tabstop=2 expandtab shiftwidth=2 softtabstop=2

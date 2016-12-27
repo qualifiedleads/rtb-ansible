@@ -1,0 +1,17 @@
+---
+- name: install from git if needed
+  include: git.yml
+  when: rtbstats_git_repo is defined
+  tags: rtbstats
+
+- name: Install Python and dependencies
+  include: dependencies.yml
+  tags: rtbstats
+
+- name: Django settings
+  include: settings.yml
+  tags: rtbstats
+
+- name: Django Tasks
+  include: django.yml
+  tags: rtbstats

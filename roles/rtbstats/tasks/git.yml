@@ -1,0 +1,13 @@
+---
+- debug:
+    msg: "Release '{{rtbstats_git_version}}'"
+
+- name: Pull repo
+  git:
+    repo: "{{rtbstats_git_repo}}"
+    dest: "{{rtbstats_path}}"
+    version: "{{rtbstats_git_version}}"
+    accept_hostkey: yes
+  when: rtbstats_git_repo is defined
+  become: true
+  become_user: "{{rtbstats_user}}"

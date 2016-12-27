@@ -1,0 +1,12 @@
+---
+# defaults file for caddy-ansible
+caddy_user: caddy
+caddy_group: www-data
+caddy_email: nonex@example.com
+caddy_features: git
+caddy_update: yes
+caddy_init_system: false
+caddy_vhosts:
+  - name: default
+    urls: "{{ ansible_default_ipv4.address }}"
+    root: /var/www/html

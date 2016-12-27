@@ -1,0 +1,26 @@
+# -*- mode: python -*-
+# vi: set ft=python :
+from settings import *
+
+SECRET_KEY = "{{rtbstats_secret_key}}"
+DEBUG = False
+
+ALLOWED_HOSTS = []
+
+# Database
+# https://docs.djangoproject.com/en/1.8/ref/settings/#databases
+DATABASES = {
+    'default': {
+        'ENGINE': 'django.db.backends.postgresql_psycopg2',
+        'NAME': '{{rtbstats_db_name}}',
+        'USER': '{{rtbstats_db_user}}',
+        'PASSWORD': '{{rtbstats_db_password}}',
+        'HOST': '{{rtbstats_db_host|default()}}',
+        'PORT': '{{rtbstats_db_port|default()}}',
+    }
+}
+
+NEXUS_AUTH_DATA= {
+    "username": "{{rtbstats_nexus_username}}", 
+    "password": "{{rtbstats_nexus_password}}"
+}

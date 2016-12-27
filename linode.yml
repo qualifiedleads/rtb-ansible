@@ -1,0 +1,11 @@
+---
+
+- name: Create Linode hosts
+  gather_facts: False
+  hosts: linode
+  roles:
+  - createlinode
+  vars:
+    ansible_ssh_pipelining: False
+  tags: always
+

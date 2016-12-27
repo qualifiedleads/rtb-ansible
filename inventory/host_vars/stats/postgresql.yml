@@ -1,0 +1,20 @@
+---
+postgresql_rtb_user_password: "{{vault_postgresql_rtb_user_password}}"
+
+postgresql_version: 9.5
+postgresql_admin_user: postgres
+postgresql_databases:
+  - name: rtb
+    owner: rtb
+postgresql_users:
+  - name: rtb
+    pass: "{{ postgresql_rtb_user_password }}"
+    encrypted: no
+  - name: readonly
+    pass: readme
+    encrypted: no
+postgresql_user_privileges:
+  - name: rtb
+    db: rtb
+    priv: "ALL"
+    role_attr_flags: "CREATEDB"

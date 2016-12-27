@@ -1,0 +1,7 @@
+---
+rtbstats_secret_key: "{{vault_rtbstats_secret_key}}"
+rtbstats_db_password: "{{vault_postgresql_rtb_user_password}}"
+rtbstats_db_user: rtb
+rtbstats_db_name: rtb
+rtbstats_nexus_username: stats_api
+rtbstats_nexus_password: "{{vault_rtbstats_nexus_password}}"

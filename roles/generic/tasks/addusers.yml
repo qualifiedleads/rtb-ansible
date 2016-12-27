@@ -1,0 +1,5 @@
+---
+- include: adduser.yml createuser="{{item}}"
+  with_items: "{{host_users|default([])}}"
+
+# vim:tabstop=2 expandtab shiftwidth=2 softtabstop=2

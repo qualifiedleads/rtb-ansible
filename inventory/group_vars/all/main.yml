@@ -1,0 +1,3 @@
+---
+caddy_email: jen@rtb.cat
+caddy_features: git,cors,ipfilter,mailout,upload

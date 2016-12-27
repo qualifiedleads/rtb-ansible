@@ -1,0 +1,32 @@
+---
+#- name: "Create linode hosts if necessary"
+#  include: linode.yml
+
+- name: "include common tasks"
+  include: common.yml
+
+- hosts: all
+  roles:
+  - generic
+
+- hosts: php-fpm
+  roles:
+  - generic
+
+- hosts: postgresql
+  roles:
+  - ANXS.postgresql
+
+- hosts: rtbstats
+  roles:
+  - rtbstats
+
+# - hosts: flask
+#   roles: 
+#   - flaskapp
+
+- hosts: caddy
+  roles:
+  - caddy
+
+# vim:tabstop=2 expandtab shiftwidth=2 softtabstop=2

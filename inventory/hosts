@@ -14,9 +14,6 @@ stats
 ; [linode]
 ; stats
 
-## django
-## uwsgi
-
 ; [dev:children]
 ; caddy
-#postgresql
+; postgresql

@@ -7,9 +7,13 @@
     - python
     - python-pip
 
-- name: install virtualenv
+- name: install pip packages
   pip:
-    name: virtualenv
+    name: "{{item}}"
+    state: present
+  with_items:
+    - virtualenv
+    - uwsgi
 
 - name: install requirements.txt
   pip:

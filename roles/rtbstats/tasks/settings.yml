@@ -13,3 +13,8 @@
     dest: "{{rtbstats_path}}/config/production.py"
     owner: "{{rtbstats_user}}"
     mode: 0644
+
+- file:
+    path: /etc/uwsgi
+    state: directory
+    mode: 0755

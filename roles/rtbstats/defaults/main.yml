@@ -1,8 +1,10 @@
 ---
+rtbstats_appname: stats.rtb.cat
 rtbstats_path: /var/www/stats.rtb.cat
 rtbstats_git_version: master
 rtbstats_git_repo: "git@github.com:qualifiedleads/rtbstats.git"
 rtbstats_user: caddy
+rtbstats_settings: production
 rtbstats_python_version: python2.7
 
 

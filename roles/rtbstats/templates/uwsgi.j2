@@ -1,0 +1,14 @@
+[uwsgi]
+fastcgi-socket=/run/{{rtbstats_user}}/{{rtbstats_appname}}.sock
+chdir={{rtbstats_path}}
+home={{rtbstats_path}}
+virtualenv={{rtbstats_path}}/venv
+env=DJANGO_SETTINGS_MODULE=config.{{rtbstats_settings}}
+module=config.wsgi:application
+master=True
+pidfile=/run/{{rtbstats_user}}/{{rtbstats_appname}}.pid
+vacuum=True
+max-requests=5000
+uid={{rtbstats_user}}
+gid=www-data
+logto=/var/log/{{rtbstats_user}}/uwsgi-{{rtbstats_appname}}.log

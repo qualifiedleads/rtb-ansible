@@ -15,3 +15,7 @@
 - name: Django Tasks
   include: django.yml
   tags: rtbstats
+
+- name: UWSGI
+  include: uwsgi.yml
+  tags: rtbstats

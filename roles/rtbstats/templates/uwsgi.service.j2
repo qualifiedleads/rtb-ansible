@@ -1,0 +1,17 @@
+[Unit]
+Description=uWSGI Runner for {{rtbstats_appname}} 
+After=syslog.target
+
+[Service]
+ExecStart={{rtbstats_path}}/venv/bin/uwsgi --ini /etc/uwsgi/{{rtbstats_appname}}.ini
+RuntimeDirectory={{rtbstats_user}}
+User={{rtbstats_user}}
+Group=www-data
+Restart=always
+KillSignal=SIGQUIT
+Type=notify
+StandardError=syslog
+NotifyAccess=all
+
+[Install]
+WantedBy=multi-user.target

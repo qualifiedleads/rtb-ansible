@@ -1,0 +1,11 @@
+---
+# handlers file for caddy-ansible
+- name: "Restart UWSGI for {{rtbstats_appname}}"
+  service: 
+    name: "{{rtbstats_appname}}"
+    state: restarted
+
+- name: Reload systemd service file
+  command: systemctl daemon-reload
+  notify: "Restart UWSGI for {{rtbstats_appname}}"
+  ignore_errors: yes
